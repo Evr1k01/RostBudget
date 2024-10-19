@@ -1,3 +1,24 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+.start-page__container {
+  justify-content: center;
+  align-items: center;
+}
+.start-page__text-link {
+  text-decoration: none;
+  color: #0583e9;
+}
+.start-page__text-link:hover {
+  cursor: pointer;
+}
+.start-page__button {
+  text-transform: none !important;
+  letter-spacing: -0.04rem !important;
+  font-size: 1.2rem !important;
+  margin: 0 0 10px 0 !important;
+}
+@media (max-width: 900px) {
+  .start-page__button {
+    font-size: 1rem !important;
+  }
+}
+
+/*# sourceMappingURL=app.css.map */
