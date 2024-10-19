@@ -1,0 +1,28 @@
+.start-page {
+    &__container {
+        justify-content: center;
+        align-items: center;
+    }
+
+    &__text {
+        &-link {
+            text-decoration: none;
+            color: #0583e9;
+
+            &:hover {
+                cursor: pointer;
+            }
+        }
+    }
+
+    &__button {
+        text-transform: none !important;
+        letter-spacing: -0.04rem !important;
+        font-size: 1.2rem !important;
+        margin: 0 0 10px 0 !important;
+
+        @media (max-width: 900px) {
+            font-size: 1rem !important;
+        }
+    }
+}
