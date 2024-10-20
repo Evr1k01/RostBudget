@@ -21,4 +21,9 @@
   }
 }
 
+.header__logo {
+  width: 3rem !important;
+  height: 3rem !important;
+}
+
 /*# sourceMappingURL=app.css.map */
