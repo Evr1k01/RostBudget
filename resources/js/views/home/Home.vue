@@ -5,7 +5,7 @@
                 <v-img :src="Logo" class="header__logo"></v-img>
             </v-col>
             <v-col cols="10" class="text-end">
-                <v-btn>Выход</v-btn>
+                <v-btn @click="logout">Выход</v-btn>
             </v-col>
         </v-row>
     </v-app-bar>
@@ -13,6 +13,9 @@
 
 <script lang="ts">
 import Logo from '@/assets/icons/LogoWhite.png'
+import LoginService from "@/services/LoginService";
+import {useRouter} from "vue-router";
+import {onMounted} from "vue";
 export default {
     name: "Home",
     data: () => ({
@@ -20,7 +23,16 @@ export default {
     }),
 
     setup(props, ctx) {
+        const router = useRouter()
+        const logout = () => {
+            LoginService.logout().then(() => {
+                router.push({name: 'Start'})
+            })
+        }
 
+        return {
+            logout
+        }
     },
 }
 </script>

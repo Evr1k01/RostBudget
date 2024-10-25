@@ -41,6 +41,7 @@ import LoginForm from "./components/LoginForm.vue";
 import RegistrationForm from "./components/RegistrationForm.vue";
 import ILoginData from "./interfaces/ILoginData";
 import {useRouter} from "vue-router";
+import LoginService from "@/services/LoginService";
 export default {
     name: "StartPage",
     components: {
@@ -84,10 +85,30 @@ export default {
             return Promise.all(result)
         }
 
+        const loginUser = (loginData: ILoginData) => {
+            router.push({name: 'Home'})
+            LoginService.login(loginData)
+                .then(() => {
+                    setTimeout(() => {
+                        buttonLoading.value = false
+                        router.push({name: 'Home'})
+                    }, 500)
+                }).catch(() => {
+                buttonLoading.value = false
+            })
+        }
+
+        const registerUser = () => {
+
+        }
+
         const sendUserData = () => {
             triggerForms().then((response) => {
-                console.log(response)
-                router.push({name: 'Home'})
+                if (response.length === 1) {
+                    loginUser(response[0])
+                } else {
+                    registerUser()
+                }
             })
         }
 
