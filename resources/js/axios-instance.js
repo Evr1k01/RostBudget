@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const token = sessionStorage.getItem('accessToken');
+const token = localStorage.getItem('accessToken');
 
 const instance = axios.create({
     baseURL: '/api/',

@@ -41,7 +41,7 @@ import LoginForm from "./components/LoginForm.vue";
 import RegistrationForm from "./components/RegistrationForm.vue";
 import ILoginData from "./interfaces/ILoginData";
 import {useRouter} from "vue-router";
-import LoginService from "@/services/LoginService";
+import {useStore} from "vuex";
 export default {
     name: "StartPage",
     components: {
@@ -54,6 +54,7 @@ export default {
         const loginForm = ref(null)
         const registrationForm = ref(null)
         const router = useRouter()
+        const store = useStore()
 
         const accountCreation = ref<boolean>(false)
 
@@ -86,16 +87,11 @@ export default {
         }
 
         const loginUser = (loginData: ILoginData) => {
-            router.push({name: 'Home'})
-            LoginService.login(loginData)
+            buttonLoading.value = true
+            store.dispatch('loggedUser/login', loginData)
                 .then(() => {
-                    setTimeout(() => {
-                        buttonLoading.value = false
-                        router.push({name: 'Home'})
-                    }, 500)
-                }).catch(() => {
-                buttonLoading.value = false
-            })
+                    router.push({name: 'Home'})
+                }).finally(() => buttonLoading.value = false)
         }
 
         const registerUser = () => {

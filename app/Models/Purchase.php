@@ -20,4 +20,8 @@ class Purchase extends Model {
     ];
 
     public $timestamps = false;
+
+    protected $casts = [
+        'expense' => 'array'
+    ];
 }

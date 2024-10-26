@@ -24,7 +24,7 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-    const isAuthenticated = sessionStorage.getItem('accessToken') !== null
+    const isAuthenticated = localStorage.getItem('accessToken') !== null
 
     if (to.name === 'Start' && isAuthenticated) {
         next({name: 'Home'})
