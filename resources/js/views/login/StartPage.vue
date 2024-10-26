@@ -40,6 +40,8 @@ import {computed, ref} from "vue";
 import LoginForm from "./components/LoginForm.vue";
 import RegistrationForm from "./components/RegistrationForm.vue";
 import ILoginData from "./interfaces/ILoginData";
+import {useRouter} from "vue-router";
+import {useStore} from "vuex";
 export default {
     name: "StartPage",
     components: {
@@ -51,6 +53,8 @@ export default {
 
         const loginForm = ref(null)
         const registrationForm = ref(null)
+        const router = useRouter()
+        const store = useStore()
 
         const accountCreation = ref<boolean>(false)
 
@@ -82,10 +86,25 @@ export default {
             return Promise.all(result)
         }
 
+        const loginUser = (loginData: ILoginData) => {
+            buttonLoading.value = true
+            store.dispatch('loggedUser/login', loginData)
+                .then(() => {
+                    router.push({name: 'Home'})
+                }).finally(() => buttonLoading.value = false)
+        }
+
+        const registerUser = () => {
+
+        }
+
         const sendUserData = () => {
             triggerForms().then((response) => {
-                buttonLoading.value = true
-                console.log(response)
+                if (response.length === 1) {
+                    loginUser(response[0])
+                } else {
+                    registerUser()
+                }
             })
         }
 

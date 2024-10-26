@@ -26,3 +26,23 @@
         }
     }
 }
+
+.header {
+    &__logo {
+        width: 3rem !important;
+        height: 3rem !important;
+    }
+}
+
+.home {
+    &__card {
+        &-span_text {
+            font-size: 1rem;
+            font-weight: bold;
+        }
+
+        &-description_text {
+            font-size: 1rem;
+        }
+    }
+}

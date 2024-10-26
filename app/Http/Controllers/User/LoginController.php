@@ -41,13 +41,13 @@ class LoginController extends Controller
         }
 
         if(!auth()->attempt($loginData)){
-            return response(['custom' => 'Указаны неверные данные'],422);
+            return response(['custom' => 'Указаны неверные данные!'],422);
         }
 
         $accessToken = auth()->user()->createToken('accessToken')->plainTextToken;;
 
         return response([
-            'access_token' => $accessToken,
+            'accessToken' => $accessToken,
         ]);
     }
 

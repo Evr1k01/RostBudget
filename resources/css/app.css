@@ -21,4 +21,17 @@
   }
 }
 
+.header__logo {
+  width: 3rem !important;
+  height: 3rem !important;
+}
+
+.home__card-span_text {
+  font-size: 1rem;
+  font-weight: bold;
+}
+.home__card-description_text {
+  font-size: 1rem;
+}
+
 /*# sourceMappingURL=app.css.map */

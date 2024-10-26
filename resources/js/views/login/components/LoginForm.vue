@@ -15,6 +15,7 @@
             label="Пароль"
             variant="outlined"
             :rules="[requiredRule]"
+            type="password"
             required
             clearable
         >
