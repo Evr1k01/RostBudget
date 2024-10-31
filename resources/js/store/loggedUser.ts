@@ -1,4 +1,4 @@
-import axios from '../axios-instance.js'
+import axios$ from '../axios-instance.js'
 import ILoginData from "../views/login/interfaces/ILoginData";
 import {ActionContext} from "vuex";
 
@@ -22,7 +22,7 @@ export default {
     actions: {
         login(context: ActionContext<any, any>, credentials: ILoginData): Promise<void> {
             return new Promise((resolve, reject) => {
-                axios.post('login', credentials)
+                axios$.post('login', credentials)
                     .then(response => {
                         const token = response.data.accessToken
                         localStorage.setItem('accessToken', token)
@@ -38,7 +38,7 @@ export default {
 
         logout(context: ActionContext<any, any>): void {
             if (context.getters.isLogged) {
-                axios.post('logout').then(() => {
+                axios$.post('logout').then(() => {
                     localStorage.removeItem('accessToken')
                     context.commit('destroyToken')
                 }).catch(error => {

@@ -1,7 +1,7 @@
 <template>
     <v-app>
-        <main-header @changeDrawer="setDrawerValue" v-if="isLogged"></main-header>
-        <main-drawer :drawer="drawer" v-if="isLogged"></main-drawer>
+        <main-header v-if="isLogged"></main-header>
+        <main-drawer v-if="isLogged"></main-drawer>
         <core-view/>
     </v-app>
 </template>
@@ -17,22 +17,15 @@ export default {
     components: {
         CoreView,
         MainHeader,
-        MainDrawer
+        MainDrawer,
     },
 
     setup(props, ctx) {
         const store = useStore()
         const isLogged = computed(() => store.getters["loggedUser/isLogged"])
 
-        const drawer = ref<boolean>(true)
-        const setDrawerValue = (value: boolean) => {
-            drawer.value = value
-        }
-
         return {
-            drawer,
-            isLogged,
-            setDrawerValue
+            isLogged
         }
     },
 }

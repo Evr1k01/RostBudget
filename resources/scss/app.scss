@@ -36,6 +36,17 @@
 
 .home {
     &__card {
+        max-height: 13.3125rem;
+        overflow-y: auto !important;
+        position: relative;
+
+        &-fixed_actions {
+            position: sticky;
+            bottom: 0;
+            right: 0;
+            background: white;
+        }
+
         &-span_text {
             font-size: 1rem;
             font-weight: bold;

@@ -1,10 +1,10 @@
 import ICurrency from "./ICurrency";
 
 interface IPurchase {
-    id: string,
+    id?: string,
     description: string,
-    expense: ICurrency,
-    date: string,
+    expense: ICurrency | string,
+    date: string | object,
     categoryId: string
 }
 
