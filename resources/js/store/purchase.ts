@@ -1,4 +1,4 @@
-import axios from '../axios-instance.js'
+import axios$ from '../axios-instance.js'
 import {ActionContext} from "vuex";
 import IPurchase from "../interfaces/IPurchase";
 export default {
@@ -9,23 +9,23 @@ export default {
     },
 
     mutations: {
-        listSuccess(state: {list: any[]}, payload: IPurchase[]) {
+        listSuccess(state: {list: IPurchase[]}, payload: IPurchase[]) {
             state.list = payload
         },
 
-        createSuccess(state, payload) {
-
+        createSuccess(state: {list: IPurchase[]}, payload: IPurchase[]) {
+            state.list = payload
         },
 
-        updateSuccess(state, payload) {
-
+        updateSuccess(state: {list: IPurchase[]}, payload: IPurchase[]) {
+            state.list = payload
         }
     },
 
     actions: {
         async getList(context: ActionContext<any, any>): Promise<void> {
             return new Promise((resolve, reject) => {
-                axios.get('purchases')
+                axios$.get('purchases')
                     .then(response => {
                         context.commit('listSuccess', response.data.data)
                         resolve()
@@ -39,16 +39,18 @@ export default {
         async storePurchase(context: ActionContext<any, any>, payload: IPurchase): Promise<void> {
             return new Promise((resolve, reject) => {
                 if (!payload.id) {
-                    axios.post(`purchases`, payload)
+                    axios$.post(`purchases`, payload)
                         .then((response) => {
+                            context.commit('createSuccess', response.data.data)
                             resolve()
                         }).catch(error => {
                             console.log(error)
                             reject(error)
                         })
                 } else {
-                    axios.put(`purchases/${payload.id}`, payload)
+                    axios$.put(`purchases/${payload.id}`, payload)
                         .then((response) => {
+                            context.commit('updateSuccess', response.data.data)
                             resolve()
                         }).catch(error => {
                             console.log(error)

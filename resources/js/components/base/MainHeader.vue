@@ -1,6 +1,6 @@
 <template>
     <v-app-bar class="position-fixed">
-        <v-app-bar-nav-icon @click.stop="toggleDrawer"></v-app-bar-nav-icon>
+        <v-app-bar-nav-icon @click="toggleDrawer"></v-app-bar-nav-icon>
         <v-toolbar-title>
             <router-link to="/home"><v-img :src="logo" class="header__logo"></v-img></router-link>
         </v-toolbar-title>
@@ -17,13 +17,11 @@ import {useStore} from "vuex";
 
 export default {
     name: "MainHeader",
-    emits: ['changeDrawer'],
 
     setup(props, ctx) {
 
         const router = useRouter()
         const store = useStore()
-        const drawer = ref<boolean>(true)
         const logo = ref(mainLogo)
 
         const logout = () => {
@@ -33,13 +31,11 @@ export default {
         }
 
         const toggleDrawer = () => {
-            drawer.value = !drawer.value;
-            ctx.emit('changeDrawer', drawer.value)
+            store.dispatch('system/setDrawer')
         }
 
         return {
             logo,
-            drawer,
             logout,
             toggleDrawer
         }

@@ -21,6 +21,7 @@ class PurchaseRequest extends FormRequest {
 
         return match ($this->getMethod()) {
             'POST' => $rules,
+            'PUT' => $rules + ['id' => 'required|uuid|exists:purchases,id'],
             default => $getRules,
         };
     }
