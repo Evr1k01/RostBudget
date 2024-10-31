@@ -1,7 +1,7 @@
 enum CurrencyEnum {
     'EUR' = '€',
     'RUB' = '₽',
-    'KZ' = '₸'
+    'KZT' = '₸'
 }
 
 export default CurrencyEnum
