@@ -1,6 +1,7 @@
 import {createRouter, createMemoryHistory, createWebHistory} from "vue-router";
 import StartPage from "../views/login/StartPage.vue";
 import Home from "../views/home/Home.vue";
+import Base from "../views/analytic/Base.vue";
 
 const routes = [
     {
@@ -14,6 +15,13 @@ const routes = [
         path: '/home',
         name: 'Home',
         component: Home,
+        meta: { requiresAuth: true },
+    },
+
+    {
+        path: '/analytic',
+        name: 'Base',
+        component: Base,
         meta: { requiresAuth: true },
     }
 ]
