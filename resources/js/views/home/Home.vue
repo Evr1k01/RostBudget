@@ -78,7 +78,7 @@
             @deletePurchase="purchaseDeletionConfirm"
             @closeDelete="closePurchaseDelete"
         ></deletion-dialog>
-        
+
     </v-container>
 </template>
 
@@ -181,7 +181,6 @@ export default {
         }
 
         const deletePurchase = (item: IPurchase) => {
-            console.log(item)
             Object.assign(purchase.value, item)
             purchaseActions.value.delete = true
         }
