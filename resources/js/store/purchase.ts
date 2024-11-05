@@ -19,7 +19,6 @@ export default {
 
         updateSuccess(state: {list: IPurchase[]}, payload: IPurchase[]) {
             state.list = payload
-        },
 
         deleteSuccess(state: {list: IPurchase[]}, payload: string) {
             let entityIndex = state.list.findIndex((item) => item.id === payload)

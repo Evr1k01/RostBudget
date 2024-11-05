@@ -78,7 +78,7 @@
             @deletePurchase="purchaseDeletionConfirm"
             @closeDelete="closePurchaseDelete"
         ></deletion-dialog>
-
+        
     </v-container>
 </template>
 
