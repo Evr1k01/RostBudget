@@ -5,7 +5,7 @@
                 <v-btn variant="tonal" :width="buttonWidth" @click="editPurchase">Добавить</v-btn>
             </v-col>
             <v-divider></v-divider>
-            <v-col cols="12" sm="6" md="4" xxl="3" v-for="purchase in purchasesList">
+            <v-col cols="12" sm="6" md="4" xxl="3" v-if="purchasesList.length > 0" v-for="purchase in purchasesList">
                 <v-card
                     :key="purchase.id"
                     class="home__card"
@@ -48,11 +48,12 @@
                             color="red"
                             density="compact"
                             icon="mdi-delete-forever"
+                            @click="deletePurchase(purchase)"
                         ></v-btn>
                     </v-card-actions>
                 </v-card>
-
             </v-col>
+            <empty-component v-else></empty-component>
         </v-row>
 
         <v-dialog v-model="purchaseActions.edit" max-width="500px">
@@ -71,6 +72,13 @@
                 </v-card-actions>
             </v-card>
         </v-dialog>
+
+        <deletion-dialog
+            :deletion-dialog="purchaseActions.delete"
+            @deletePurchase="purchaseDeletionConfirm"
+            @closeDelete="closePurchaseDelete"
+        ></deletion-dialog>
+
     </v-container>
 </template>
 
@@ -85,10 +93,14 @@ import {useDisplay} from "vuetify";
 import ICurrency from "../../interfaces/ICurrency";
 import CurrencyEnum from "../../utils/enums/CurrencyEnum";
 import PurchaseForm from "./components/PurchaseForm.vue";
+import EmptyComponent from "./components/EmptyComponent.vue";
+import DeletionDialog from "./components/DeletionDialog.vue";
 export default {
     name: "Home",
     components: {
         PurchaseForm,
+        EmptyComponent,
+        DeletionDialog
     },
 
     setup(props, ctx) {
@@ -168,6 +180,22 @@ export default {
             }, 200)
         }
 
+        const deletePurchase = (item: IPurchase) => {
+            console.log(item)
+            Object.assign(purchase.value, item)
+            purchaseActions.value.delete = true
+        }
+
+        const purchaseDeletionConfirm = () => {
+            store.dispatch('purchase/deletePurchase', purchase.value)
+                .then(() => closePurchaseDelete())
+        }
+
+        const closePurchaseDelete = () => {
+            Object.assign(purchase.value, clearPurchase.value)
+            purchaseActions.value.delete = false
+        }
+
         onMounted(() => {
             store.dispatch('purchase/getList')
             store.dispatch('category/getList')
@@ -187,7 +215,10 @@ export default {
             setCurrentCurrency,
             editPurchase,
             savePurchase,
-            closePurchaseEdit
+            closePurchaseEdit,
+            deletePurchase,
+            purchaseDeletionConfirm,
+            closePurchaseDelete
         }
     },
 }

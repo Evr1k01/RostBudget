@@ -19,6 +19,13 @@ export default {
 
         updateSuccess(state: {list: IPurchase[]}, payload: IPurchase[]) {
             state.list = payload
+        },
+
+        deleteSuccess(state: {list: IPurchase[]}, payload: string) {
+            let entityIndex = state.list.findIndex((item) => item.id === payload)
+            if (entityIndex > -1) {
+                state.list.splice(entityIndex, 1)
+            }
         }
     },
 
@@ -57,6 +64,18 @@ export default {
                             reject(error)
                         })
                 }
+            })
+        },
+
+        async deletePurchase(context: ActionContext<any, any>, payload: IPurchase): Promise<void> {
+            return new Promise((resolve, reject) => {
+                axios$.delete(`purchases/${payload.id}`)
+                    .then(() => {
+                        context.commit('deleteSuccess', payload.id)
+                        resolve()
+                    }).catch(error => {
+                    reject(error)
+                })
             })
         }
     },

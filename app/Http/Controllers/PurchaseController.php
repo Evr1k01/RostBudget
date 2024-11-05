@@ -36,4 +36,9 @@ class PurchaseController extends Controller {
         }
         return PurchaseResource::collection($result);
     }
+
+    public function destroy(Purchase $purchase): JsonResponse {
+        Purchase::destroy($purchase->id);
+        return response()->json(null, 204);
+    }
 }

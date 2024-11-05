@@ -66,7 +66,7 @@ export default {
         const editablePurchase = ref<IPurchase>({
             description: '',
             expense: '',
-            date: '',
+            date: new Date(),
             categoryId: ''
         })
 
