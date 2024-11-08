@@ -15,5 +15,8 @@ Route::get('/get-user-currency', [UserController::class, 'getUserCurrency'])->mi
 Route::post('/set-user-currency', [UserController::class, 'setUserCurrency'])->middleware('auth:sanctum');
 
 Route::apiResource('/purchases', PurchaseController::class)->middleware('auth:sanctum');
+Route::get('/month-overview', [PurchaseController::class, 'monthOverview'])->middleware('auth:sanctum');
+Route::get('/month-expenses', [PurchaseController::class, 'calculateMonthExpenses'])->middleware('auth:sanctum');
+
 Route::apiResource('/categories', CategoryController::class)->middleware('auth:sanctum');
 Route::apiResource('/currencies', CurrencyController::class)->middleware('auth:sanctum');

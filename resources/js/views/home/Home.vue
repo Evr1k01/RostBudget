@@ -1,8 +1,19 @@
 <template>
     <v-container fluid>
         <v-row>
-            <v-col cols="12" class="text-end">
-                <v-btn variant="tonal" :width="buttonWidth" @click="editPurchase">Добавить</v-btn>
+            <v-col cols="12">
+                <v-row justify="center" class="align-sm-center">
+                    <v-col cols="12" sm="6" class="text-sm-start text-center home__header-expense_text">
+                        <p>
+                            <span class="home__header-expense_number">
+                                <v-icon size="24px" class="pb-2">mdi-cash-multiple</v-icon> -{{setCurrentCurrency(monthExpenses)}}
+                            </span>
+                        </p>
+                    </v-col>
+                    <v-col cols="12" sm="6" class="text-sm-end text-center">
+                        <v-btn variant="tonal" :width="buttonWidth" @click="editPurchase">Добавить</v-btn>
+                    </v-col>
+                </v-row>
             </v-col>
             <v-divider></v-divider>
             <v-col cols="12" sm="6" md="4" xxl="3" v-if="purchasesList.length > 0" v-for="purchase in purchasesList">
@@ -78,7 +89,7 @@
             @deletePurchase="purchaseDeletionConfirm"
             @closeDelete="closePurchaseDelete"
         ></deletion-dialog>
-        
+
     </v-container>
 </template>
 
@@ -118,9 +129,10 @@ export default {
         } as IPurchase)
 
         const purchasesList = computed((): IPurchase[] => store.getters["purchase/getList"])
+        const monthExpenses = computed((): ICurrency => store.getters["purchase/getMonthExpenses"])
         const currentCurrency = computed((): string => store.getters["currency/getCurrency"])
 
-        const buttonWidth = computed((): string => display.smAndDown.value ? '100%' : '15%')
+        const buttonWidth = computed((): string => display.smAndDown.value ? '100%' : '30%')
         const purchaseActions = ref({
             edit: false,
             delete: false
@@ -149,7 +161,7 @@ export default {
         }
 
         const setCurrentCurrency = (expenses: ICurrency) => {
-            return `${expenses[currentCurrency.value]} ${CurrencyEnum[currentCurrency.value]}`
+            return `${Number(expenses[currentCurrency.value]).toFixed(1)} ${CurrencyEnum[currentCurrency.value]}`
         }
 
         const editDialogTitle = computed(() => purchase.value.id ? 'Редактирование' : 'Добавление')
@@ -166,8 +178,9 @@ export default {
             if (purchaseForm.value) {
                 loading.value = true
                 purchaseForm.value.sendPurchaseData()
-                    .then((response: IPurchase) => {
-                        store.dispatch('purchase/storePurchase', response)
+                    .then(async (response: IPurchase) => {
+                        await store.dispatch('purchase/storePurchase', response)
+                        await store.dispatch('purchase/getMonthExpenses')
                         purchaseActions.value.edit = false
                     }).finally(() => loading.value = false)
             }
@@ -181,14 +194,16 @@ export default {
         }
 
         const deletePurchase = (item: IPurchase) => {
-            console.log(item)
             Object.assign(purchase.value, item)
             purchaseActions.value.delete = true
         }
 
         const purchaseDeletionConfirm = () => {
             store.dispatch('purchase/deletePurchase', purchase.value)
-                .then(() => closePurchaseDelete())
+                .then(() => {
+                    store.dispatch('purchase/getMonthExpenses')
+                    closePurchaseDelete()
+                })
         }
 
         const closePurchaseDelete = () => {
@@ -198,6 +213,7 @@ export default {
 
         onMounted(() => {
             store.dispatch('purchase/getList')
+            store.dispatch('purchase/getMonthExpenses')
             store.dispatch('category/getList')
         })
 
@@ -207,6 +223,7 @@ export default {
             buttonWidth,
             purchaseActions,
             purchase,
+            monthExpenses,
             editDialogTitle,
             categoryName,
             categoryIcon,

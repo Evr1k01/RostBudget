@@ -57,12 +57,6 @@ export default {
                 title: 'Месячный обзор',
                 to: 'months-review'
             },
-
-            {
-                icon: 'mdi-note-search-outline',
-                title: 'Текущая аналитика',
-                to: 'analytic'
-            }
         ])
 
         const currencies = computed(() => store.getters['currency/getList'])

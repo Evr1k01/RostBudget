@@ -1,30 +1,50 @@
 import axios$ from '../axios-instance.js'
 import {ActionContext} from "vuex";
 import IPurchase from "../interfaces/IPurchase";
+import IMonthOverview from "../interfaces/IMonthOverview";
+import ICurrency from "../interfaces/ICurrency";
+
+interface PurchaseState {
+    list: IPurchase[],
+    monthOverview: IMonthOverview[],
+    monthExpenses: ICurrency
+}
+
 export default {
     namespaced: true,
 
     state: {
-         list: []
+        list: [],
+        monthOverview: [],
+        monthExpenses: []
     },
 
     mutations: {
-        listSuccess(state: {list: IPurchase[]}, payload: IPurchase[]) {
+        listSuccess(state: PurchaseState, payload: IPurchase[]) {
             state.list = payload
         },
 
-        createSuccess(state: {list: IPurchase[]}, payload: IPurchase[]) {
+        createSuccess(state: PurchaseState, payload: IPurchase[]) {
             state.list = payload
         },
 
-        updateSuccess(state: {list: IPurchase[]}, payload: IPurchase[]) {
+        updateSuccess(state: PurchaseState, payload: IPurchase[]) {
             state.list = payload
+        },
 
-        deleteSuccess(state: {list: IPurchase[]}, payload: string) {
+        deleteSuccess(state: PurchaseState, payload: string) {
             let entityIndex = state.list.findIndex((item) => item.id === payload)
             if (entityIndex > -1) {
                 state.list.splice(entityIndex, 1)
             }
+        },
+
+        monthOverviewSuccess(state: PurchaseState, payload: IMonthOverview[]) {
+            state.monthOverview = payload
+        },
+
+        monthExpensesSuccess(state: PurchaseState, payload: ICurrency) {
+            state.monthExpenses = payload
         }
     },
 
@@ -76,12 +96,44 @@ export default {
                     reject(error)
                 })
             })
-        }
+        },
+
+        async getMonthOverview(context: ActionContext<any, any>): Promise<void> {
+            return new Promise((resolve, reject) => {
+                axios$.get('month-overview')
+                    .then(response => {
+                        context.commit('monthOverviewSuccess', response.data.data)
+                        resolve()
+                    }).catch(error => {
+                    reject(error)
+                })
+            })
+        },
+
+        async getMonthExpenses(context: ActionContext<any, any>): Promise<void> {
+            return new Promise((resolve, reject) => {
+                axios$.get('month-expenses')
+                    .then(response => {
+                        context.commit('monthExpensesSuccess', response.data)
+                        resolve()
+                    }).catch(error => {
+                    reject(error)
+                })
+            })
+        },
     },
 
     getters: {
-        getList(state: {list: IPurchase[]}) {
+        getList(state: PurchaseState) {
             return state.list
+        },
+
+        getMonthOverview(state: PurchaseState){
+            return state.monthOverview
+        },
+
+        getMonthExpenses(state: PurchaseState){
+            return state.monthExpenses
         }
     }
 }

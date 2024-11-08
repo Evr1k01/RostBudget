@@ -33,7 +33,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::m1JGYb8oPczq6OWC',
+            '_route' => 'generated::4TvwGjBqQaIdNQcJ',
           ),
           1 => NULL,
           2 => 
@@ -52,7 +52,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::vrWs4PKtqxo9Mtp9',
+            '_route' => 'generated::NJ1hdyJLKMUdYF96',
           ),
           1 => NULL,
           2 => 
@@ -107,7 +107,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::pWPFZWKPOrHBUkvG',
+            '_route' => 'generated::s3cvO7seXwdHVVaR',
           ),
           1 => NULL,
           2 => 
@@ -127,7 +127,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::RZW9rswWskTmocwc',
+            '_route' => 'generated::uRnT0GLgEhU1x8az',
           ),
           1 => NULL,
           2 => 
@@ -169,6 +169,46 @@ app('router')->setCompiledRoutes(
           2 => 
           array (
             'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/api/month-overview' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'generated::RYJeR46r7e0YUTxV',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/api/month-expenses' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'generated::f5lMfddUzgoGfk6w',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
           ),
           3 => NULL,
           4 => false,
@@ -254,7 +294,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::m9DA8l9dxtRTaSG8',
+            '_route' => 'generated::QDzOvJNA3Q0W16XZ',
           ),
           1 => NULL,
           2 => 
@@ -622,7 +662,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::m1JGYb8oPczq6OWC' => 
+    'generated::4TvwGjBqQaIdNQcJ' => 
     array (
       'methods' => 
       array (
@@ -642,7 +682,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::m1JGYb8oPczq6OWC',
+        'as' => 'generated::4TvwGjBqQaIdNQcJ',
       ),
       'fallback' => false,
       'defaults' => 
@@ -658,7 +698,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::vrWs4PKtqxo9Mtp9' => 
+    'generated::NJ1hdyJLKMUdYF96' => 
     array (
       'methods' => 
       array (
@@ -679,7 +719,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::vrWs4PKtqxo9Mtp9',
+        'as' => 'generated::NJ1hdyJLKMUdYF96',
       ),
       'fallback' => false,
       'defaults' => 
@@ -878,7 +918,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::pWPFZWKPOrHBUkvG' => 
+    'generated::s3cvO7seXwdHVVaR' => 
     array (
       'methods' => 
       array (
@@ -900,7 +940,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::pWPFZWKPOrHBUkvG',
+        'as' => 'generated::s3cvO7seXwdHVVaR',
       ),
       'fallback' => false,
       'defaults' => 
@@ -916,7 +956,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::RZW9rswWskTmocwc' => 
+    'generated::uRnT0GLgEhU1x8az' => 
     array (
       'methods' => 
       array (
@@ -937,7 +977,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::RZW9rswWskTmocwc',
+        'as' => 'generated::uRnT0GLgEhU1x8az',
       ),
       'fallback' => false,
       'defaults' => 
@@ -1126,6 +1166,82 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'generated::RYJeR46r7e0YUTxV' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'api/month-overview',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'api',
+          1 => 'auth:sanctum',
+        ),
+        'uses' => 'App\\Http\\Controllers\\PurchaseController@monthOverview',
+        'controller' => 'App\\Http\\Controllers\\PurchaseController@monthOverview',
+        'namespace' => NULL,
+        'prefix' => 'api',
+        'where' => 
+        array (
+        ),
+        'as' => 'generated::RYJeR46r7e0YUTxV',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'generated::f5lMfddUzgoGfk6w' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'api/month-expenses',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'api',
+          1 => 'auth:sanctum',
+        ),
+        'uses' => 'App\\Http\\Controllers\\PurchaseController@calculateMonthExpenses',
+        'controller' => 'App\\Http\\Controllers\\PurchaseController@calculateMonthExpenses',
+        'namespace' => NULL,
+        'prefix' => 'api',
+        'where' => 
+        array (
+        ),
+        'as' => 'generated::f5lMfddUzgoGfk6w',
       ),
       'fallback' => false,
       'defaults' => 
@@ -1517,7 +1633,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::m9DA8l9dxtRTaSG8' => 
+    'generated::QDzOvJNA3Q0W16XZ' => 
     array (
       'methods' => 
       array (
@@ -1531,8 +1647,8 @@ app('router')->setCompiledRoutes(
                     \\Illuminate\\Support\\Facades\\Event::dispatch(new \\Illuminate\\Foundation\\Events\\DiagnosingHealth);
 
                     return \\Illuminate\\Support\\Facades\\View::file(\'/Users/maxim/Desktop/Projects/rost_budget/vendor/laravel/framework/src/Illuminate/Foundation/Configuration\'.\'/../resources/health-up.blade.php\');
-                }";s:5:"scope";s:54:"Illuminate\\Foundation\\Configuration\\ApplicationBuilder";s:4:"this";N;s:4:"self";s:32:"00000000000002ed0000000000000000";}}',
-        'as' => 'generated::m9DA8l9dxtRTaSG8',
+                }";s:5:"scope";s:54:"Illuminate\\Foundation\\Configuration\\ApplicationBuilder";s:4:"this";N;s:4:"self";s:32:"00000000000002ea0000000000000000";}}',
+        'as' => 'generated::QDzOvJNA3Q0W16XZ',
       ),
       'fallback' => false,
       'defaults' => 
@@ -1564,7 +1680,7 @@ app('router')->setCompiledRoutes(
         ),
         'uses' => 'O:55:"Laravel\\SerializableClosure\\UnsignedSerializableClosure":1:{s:12:"serializable";O:46:"Laravel\\SerializableClosure\\Serializers\\Native":5:{s:3:"use";a:0:{}s:8:"function";s:41:"function (){
     return \\view(\'index\');
-}";s:5:"scope";s:37:"Illuminate\\Routing\\RouteFileRegistrar";s:4:"this";N;s:4:"self";s:32:"00000000000002fa0000000000000000";}}',
+}";s:5:"scope";s:37:"Illuminate\\Routing\\RouteFileRegistrar";s:4:"this";N;s:4:"self";s:32:"00000000000005b50000000000000000";}}',
         'namespace' => NULL,
         'prefix' => '',
         'where' => 
@@ -1603,7 +1719,7 @@ app('router')->setCompiledRoutes(
                         $config,
                         $isProduction
                     ))($request, $path);
-                }";s:5:"scope";s:47:"Illuminate\\Filesystem\\FilesystemServiceProvider";s:4:"this";N;s:4:"self";s:32:"00000000000005b80000000000000000";}}',
+                }";s:5:"scope";s:47:"Illuminate\\Filesystem\\FilesystemServiceProvider";s:4:"this";N;s:4:"self";s:32:"00000000000006c40000000000000000";}}',
         'as' => 'storage.local',
       ),
       'fallback' => false,

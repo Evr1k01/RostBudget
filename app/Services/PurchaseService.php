@@ -4,6 +4,8 @@ namespace App\Services;
 
 use App\Models\Currency;
 use App\Models\Purchase;
+use App\Models\MonthReport;
+use App\Models\User;
 use App\Services\Interfaces\IPurchase;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
@@ -14,7 +16,7 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Exception;
 use Illuminate\Support\Str;
-use Illuminate\Support\Carbon;
+use Carbon\Carbon;
 use Illuminate\Support\Number;
 
 class PurchaseService implements IPurchase {
@@ -104,6 +106,80 @@ class PurchaseService implements IPurchase {
         }
     }
 
+    public function calculateMonthExpenses(): array {
+        $currentUser = Auth::user();
+        $purchases = $this->getPurchases($currentUser);
+        return $this->sumExpenses($purchases);
+    }
+
+    public function getMonthOverview(): Collection {
+        $currentUser = Auth::user();
+        return MonthReport::query()->where(
+            'user_id', $currentUser->id
+        )->get()->sortByDesc('created_at');
+    }
+
+    public function setMonthsOverview(): void {
+        $userReports = $this->getUsersMonthReport();
+        dd($userReports);
+        foreach ($userReports as $report) {
+            MonthReport::query()->create([
+                'sum' => $report['sum'],
+                'month' => $report['month'],
+                'year' => $report['year'],
+                'top_category' => $report['category'],
+                'user_id' => $report['user_id'],
+            ]);
+        }
+    }
+
+    private function getUsersMonthReport(): array {
+        $result = [];
+        $dates = $this->getMonthBoundaries();
+        User::with('purchases')->each(function ($user) use ($dates, &$result) {
+            $filteredPurchases = $user->purchases->filter(function ($purchase) use ($dates) {
+               return $dates['firstDay'] <= $purchase->date && $dates['lastDay'] >= $purchase->date;
+            });
+
+            $categoryCounts = $filteredPurchases->groupBy('category_id')->map(function ($category) {
+                return $category->count();
+            });
+
+            $userExpenses = $this->sumExpenses($filteredPurchases);
+
+            $result[] = [
+                'user_id' => $user->id,
+                'sum' => $userExpenses,
+                'category' => $categoryCounts->search($categoryCounts->max()),
+                'month' => Carbon::now()->subMonth()->format('F'),
+                'year' => Str::substr($dates['firstDay'], 0, 4),
+            ];
+        });
+        return $result;
+    }
+
+    private function getMonthBoundaries(): array {
+        $currentDate = Carbon::now()->subMonth(); // Переходим к предыдущему месяцу
+        return [
+            'firstDay' => $currentDate->copy()->startOfMonth()->format('Y-m-d'),
+            'lastDay' => $currentDate->copy()->endOfMonth()->format('Y-m-d')
+        ];
+    }
+
+    private function sumExpenses(Collection $purchases): array {
+        $userExpenses = [];
+        foreach ($purchases as $purchase) {
+            $expense = $purchase->expense;
+            foreach ($expense as $currency => $amount) {
+                if (!isset($userExpenses[$currency])) {
+                    $userExpenses[$currency] = 0;
+                }
+                $userExpenses[$currency] += round((float) $amount, 1);
+            }
+        }
+        return $userExpenses;
+    }
+
     /**
      * @throws ConnectionException
      */
@@ -132,7 +208,7 @@ class PurchaseService implements IPurchase {
         $result = [];
         foreach ($exchangeRates as $currency => $rate) {
             $calculatedCurrency = $baseExpense * $rate;
-            $result[Str::upper($currency)] = Number::format($calculatedCurrency, 1);
+            $result[Str::upper($currency)] = round($calculatedCurrency, 1);
         }
         return $result;
     }

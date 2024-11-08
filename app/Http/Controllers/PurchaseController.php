@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\PurchaseRequest;
+use App\Http\Resources\MonthReportResource;
 use App\Models\Purchase;
 use App\Services\Interfaces\IPurchase;
 use App\Http\Resources\PurchaseResource;
@@ -40,5 +41,13 @@ class PurchaseController extends Controller {
     public function destroy(Purchase $purchase): JsonResponse {
         Purchase::destroy($purchase->id);
         return response()->json(null, 204);
+    }
+
+    public function monthOverview(): JsonResource {
+        return MonthReportResource::collection($this->purchaseService->getMonthOverview());
+    }
+
+    public function calculateMonthExpenses(): array {
+        return $this->purchaseService->calculateMonthExpenses();
     }
 }

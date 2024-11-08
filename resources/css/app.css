@@ -26,6 +26,18 @@
   height: 3rem !important;
 }
 
+@media (max-width: 599px) {
+  .home__header-expense_text {
+    margin-bottom: -0.5rem !important;
+  }
+}
+.home__header-expense_number {
+  font-size: 1.5rem;
+  font-weight: bold;
+  padding: 5px;
+  border: 3px solid #5865f2;
+  border-radius: 10px;
+}
 .home__card {
   max-height: 13.3125rem;
   overflow-y: auto !important;
