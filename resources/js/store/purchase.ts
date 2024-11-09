@@ -6,6 +6,7 @@ import ICurrency from "../interfaces/ICurrency";
 
 interface PurchaseState {
     list: IPurchase[],
+    lastPeriodList: IPurchase[],
     monthOverview: IMonthOverview[],
     monthExpenses: ICurrency
 }
@@ -16,7 +17,8 @@ export default {
     state: {
         list: [],
         monthOverview: [],
-        monthExpenses: []
+        monthExpenses: [],
+        lastPeriodList: []
     },
 
     mutations: {
@@ -45,6 +47,10 @@ export default {
 
         monthExpensesSuccess(state: PurchaseState, payload: ICurrency) {
             state.monthExpenses = payload
+        },
+
+        lastPeriodListSuccess(state: PurchaseState, payload: IPurchase[]) {
+            state.lastPeriodList = payload
         }
     },
 
@@ -121,6 +127,21 @@ export default {
                 })
             })
         },
+
+        async getLastPeriodList(context: ActionContext<any, any>, payload: IMonthOverview): Promise<void> {
+            return new Promise((resolve, reject) => {
+                axios$.get(`last-purchases`, {params: {
+                        month: payload.month,
+                        year: payload.year
+                    }})
+                    .then(response => {
+                        context.commit('lastPeriodListSuccess', response.data.data)
+                        resolve()
+                    }).catch(error => {
+                    reject(error)
+                })
+            })
+        },
     },
 
     getters: {
@@ -134,6 +155,10 @@ export default {
 
         getMonthExpenses(state: PurchaseState){
             return state.monthExpenses
+        },
+
+        getLastPeriodList(state: PurchaseState) {
+            return state.lastPeriodList
         }
     }
 }
