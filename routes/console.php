@@ -5,4 +5,4 @@ use App\Services\PurchaseService;
 
 Schedule::call(function (PurchaseService $purchaseService) {
     $purchaseService->setMonthsOverview();
-})->everyMinute();
+})->monthlyOn(1, '00:00');
