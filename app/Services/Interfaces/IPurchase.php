@@ -11,4 +11,5 @@ interface IPurchase {
     public function updatePurchase(string $id, array $attributes): Collection|null;
     public function getMonthOverview(): Collection;
     public function calculateMonthExpenses(): array;
+    public function getLastMonthPurchases(string $month, string $year): Collection;
 }

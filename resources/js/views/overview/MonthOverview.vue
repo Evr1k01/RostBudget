@@ -1,6 +1,7 @@
 <template>
     <v-container fluid>
         <v-data-table
+            v-if="monthOverviewList.length > 0"
             :items="monthOverviewList"
             :headers="headers as any"
             no-data-text="Информация отсутствует"
@@ -30,15 +31,23 @@
             </template>
 
             <template v-slot:item.analytic="{item}">
-                <v-btn variant="text" color="#5865f2" class="px-2">Обзор</v-btn>
+                <v-btn
+                    variant="text"
+                    color="#5865f2"
+                    class="px-2"
+                    @click="getPeriodOverview(item)"
+                >
+                    Обзор
+                </v-btn>
             </template>
         </v-data-table>
 
-        <v-row class="d-block d-sm-none">
+        <v-row class="d-block d-sm-none" v-if="monthOverviewList.length > 0">
             <v-col cols="12" v-for="overview in monthOverviewList">
                 <v-card
                     :key="overview.id"
                     class="home__card"
+                    @click="getPeriodOverview(overview)"
                 >
                     <template v-slot:append>
                         <v-icon color="primary" :icon="categoryIcon(overview.category)" size="36px"></v-icon>
@@ -62,7 +71,33 @@
                 </v-card>
             </v-col>
         </v-row>
+
+        <empty-component v-else :page="'Overview'"></empty-component>
     </v-container>
+
+    <v-dialog v-model="analyticDialog" max-width="500px">
+        <v-row justify="center">
+            <v-col cols="12">
+                <v-card>
+                    <v-card-text>
+                        <analytic :month-overview="currentPeriodOverview"></analytic>
+                    </v-card-text>
+                    <v-divider></v-divider>
+                    <v-card-actions>
+                        <v-row>
+                            <v-col cols="12" class="text-end">
+                                <v-btn
+                                    width="100%"
+                                    variant="tonal"
+                                    color="#5865f2"
+                                    @click="closeAnalyticDialog">Закрыть</v-btn>
+                            </v-col>
+                        </v-row>
+                    </v-card-actions>
+                </v-card>
+            </v-col>
+        </v-row>
+    </v-dialog>
 </template>
 
 <script lang="ts">
@@ -74,14 +109,22 @@ import ICurrency from "../../interfaces/ICurrency";
 import CurrencyEnum from "../../utils/enums/CurrencyEnum";
 import MonthEnum from "../../utils/enums/MonthEnum";
 import CategoryIconEnum from "../../utils/enums/CategoryIconEnum";
+import Analytic from "./components/Analytic.vue";
+import EmptyComponent from "../home/components/EmptyComponent.vue";
 
 export default {
     name: "MonthOverview",
+    components: {
+        Analytic,
+        EmptyComponent
+    },
 
     setup(props, ctx) {
         const store = useStore()
         const monthOverviewList = computed((): IMonthOverview[] => store.getters['purchase/getMonthOverview'])
         const currentCurrency = computed((): string => store.getters['currency/getCurrency'])
+        const currentPeriodOverview = ref<IMonthOverview>({} as IMonthOverview)
+        const analyticDialog = ref<boolean>(false)
 
         const headers = ref([
             { title: 'Период', align: 'start', key: 'month' },
@@ -112,6 +155,15 @@ export default {
             return `${MonthEnum[item.month]} / ${item.year}`
         }
 
+        const getPeriodOverview = (overview: IMonthOverview) => {
+            Object.assign(currentPeriodOverview.value, overview)
+            analyticDialog.value = true
+        }
+
+        const closeAnalyticDialog = () => {
+            analyticDialog.value = false
+        }
+
         onMounted(() => {
             store.dispatch('purchase/getMonthOverview')
         })
@@ -120,10 +172,14 @@ export default {
             monthOverviewList,
             headers,
             itemsPerPage,
+            currentPeriodOverview,
+            analyticDialog,
             categoryIcon,
             categoryById,
             getCurrentCurrency,
-            getFormattedDate
+            getFormattedDate,
+            getPeriodOverview,
+            closeAnalyticDialog
         }
     },
 }

@@ -64,7 +64,7 @@
                     </v-card-actions>
                 </v-card>
             </v-col>
-            <empty-component v-else></empty-component>
+            <empty-component v-else :page="'Home'"></empty-component>
         </v-row>
 
         <v-dialog v-model="purchaseActions.edit" max-width="500px">

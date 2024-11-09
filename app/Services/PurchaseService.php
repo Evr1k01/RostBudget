@@ -17,7 +17,6 @@ use Illuminate\Support\Facades\Log;
 use Exception;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
-use Illuminate\Support\Number;
 
 class PurchaseService implements IPurchase {
     public function getPurchases(Model $user): Collection {
@@ -30,6 +29,32 @@ class PurchaseService implements IPurchase {
             ->where('date', '>=', $startOfTheMonth)
             ->where('date', '<=', $endOfTheMonth)
             ->get()->sortByDesc('date');
+    }
+
+    public function getLastMonthPurchases(string $month, string $year): Collection {
+        $user = Auth::user();
+
+        $months = [
+            'january' => 1, 'february' => 2, 'march' => 3, 'april' => 4,
+            'mai' => 5, 'jun' => 6, 'july' => 7, 'august' => 8,
+            'september' => 9, 'october' => 10, 'november' => 11, 'december' => 12
+        ];
+
+        $monthNumber = $months[Str::lower(($month))] ?? null;
+
+        if (!$monthNumber) {
+            throw new Exception("Некорректное название месяца: $month");
+        }
+
+        // Устанавливаем начальную и конечную даты для указанного месяца и года
+        $startOfTheMonth = Carbon::createFromDate($year, $monthNumber, 1)->startOfMonth()->format('Y-m-d');
+        $endOfTheMonth = Carbon::createFromDate($year, $monthNumber, 1)->endOfMonth()->format('Y-m-d');
+
+        return Purchase::query()
+            ->where('user_id', $user->id)
+            ->where('date', '>=', $startOfTheMonth)
+            ->where('date', '<=', $endOfTheMonth)
+            ->get();
     }
 
     public function addPurchase(array $attributes): Collection|null {
@@ -121,7 +146,6 @@ class PurchaseService implements IPurchase {
 
     public function setMonthsOverview(): void {
         $userReports = $this->getUsersMonthReport();
-        dd($userReports);
         foreach ($userReports as $report) {
             MonthReport::query()->create([
                 'sum' => $report['sum'],
